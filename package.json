@@ -1,0 +1,27 @@
+{
+  "name": "fetch-swagger-api",
+  "version": "1.0.0",
+  "description": "远程拉取swagger内容，生成json模拟数据、typescript文件",
+  "author": "qqhao <345263463@qq.com> (http://www.yuque.com/qqhh)",
+  "license": "none",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "start": "ts-node ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dasheng91/fetch-swagger-api.git"
+  },
+  "licenses": "(MIT OR Apache-2.0)",
+  "engines": {
+    "node": ">= 10.0.0",
+    "npm": ">= 4.0.0"
+  },
+  "dependencies": {
+    "@types/node": "^15.3.0"
+  },
+  "devDependencies": {}
+}

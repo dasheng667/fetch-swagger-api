@@ -1,5 +1,6 @@
 import { Query } from '../types/swagger';
 export declare const validataQuery: (requestData: any, requestPath: string, options: Query) => boolean;
+export declare const dataType: string[];
 /**
  * 校验节点是不是声明类型，声明数据必有type
  * @param node 节点

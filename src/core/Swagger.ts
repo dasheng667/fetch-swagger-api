@@ -1,4 +1,4 @@
-import { Query, QueryListItem } from '../types/swagger';
+import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback } from '../types/swagger';
 import eachDefinitions from './eachDefinitions';
 import parameters from './parameters';
 import toResponseJSON from './toResponseJSON';
@@ -56,14 +56,14 @@ export default class Swagger {
    * @param callback 
    * @returns 
    */
-  toResponseJSON(callback?: Function){
+  toResponseJSON(callback?: (data: {[path: string]: any}) => void){
     const keys = Object.keys(this.queryList);
     if(keys.length === 0) return this;
     const json = {};
     
-    keys.forEach(key=>{
-      const { response } = this.queryList[key];
-      json[key] = toResponseJSON(response);
+    keys.forEach(path=>{
+      const { response } = this.queryList[path];
+      json[path] = toResponseJSON(response);
     });
 
     this.responseData = json;
@@ -79,14 +79,14 @@ export default class Swagger {
    * @param callback 
    * @returns 
    */
-  toTypeScript(callback?: Function){
+  toTypeScript(callback?: (data: ResponseCallback) => void){
     const keys = Object.keys(this.queryList);
     if(keys.length === 0) return this;
 
     const json = {};
-    keys.forEach(key=>{
-      const { request, response } = this.queryList[key];
-      json[key] = {
+    keys.forEach(path=>{
+      const { request, response } = this.queryList[path];
+      json[path] = {
         request: toTypeScript(request, 'props'),
         response: toTypeScript(response, 'result')
       };
@@ -102,19 +102,27 @@ export default class Swagger {
   /**
    * 转换成ts的接口模板
    */
-  toInterfaceTemp(){
+  toInterfaceTemp(callback?: (data: InterfaceTempCallback) => void){
     const keys = Object.keys(this.typescriptData);
     if(keys.length === 0) return this;
-    
+    let propsString = '';
+    let resultString = '';
     let a = 0;
-    keys.forEach(path=>{
-      const {request, response} = this.typescriptData[path];
-      let propsString = toInterfaceTemp(request);
-      propsString += toInterfaceTemp(response);
 
+    keys.forEach(path=>{
       a++;
-      writeTS(`interface/props${a}.d.ts`, propsString);
+      const {request, response} = this.typescriptData[path];
+      propsString += toInterfaceTemp(request);
+      resultString += toInterfaceTemp(response);
+      writeTS(`interface/props${a}.d.ts`, propsString + resultString);
     });
+
+    if(typeof callback === 'function'){
+      callback({
+        propsString,
+        resultString
+      });
+    }
 
     return this;
   }

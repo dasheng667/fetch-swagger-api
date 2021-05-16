@@ -1,5 +1,5 @@
 /**
- *
+ * ts接口模板
  * @param name interface的名称
  * @param data
  * @returns

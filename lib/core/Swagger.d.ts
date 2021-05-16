@@ -1,4 +1,4 @@
-import { Query, QueryListItem } from '../types/swagger';
+import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback } from '../types/swagger';
 /**
  * Swagger 拉取工具
  */
@@ -14,15 +14,17 @@ export default class Swagger {
      * @param callback
      * @returns
      */
-    toResponseJSON(callback?: Function): this;
+    toResponseJSON(callback?: (data: {
+        [path: string]: any;
+    }) => void): this;
     /**
      * 转换成ts声明文件
      * @param callback
      * @returns
      */
-    toTypeScript(callback?: Function): this;
+    toTypeScript(callback?: (data: ResponseCallback) => void): this;
     /**
      * 转换成ts的接口模板
      */
-    toInterfaceTemp(): this;
+    toInterfaceTemp(callback?: (data: InterfaceTempCallback) => void): this;
 }

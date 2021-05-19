@@ -1,71 +1,42 @@
+///boms/api/billReceipt/add 
 export interface Props { 
-  /** 备注：活动code  */ 
- activityCode: string; 
-  /** 备注：群主code  */ 
- groupCode: string; 
- pageNo: number; 
- pageSize: number; 
-  /** 备注：货架id  */ 
- shelfId: string; 
+ queryVO: QueryVO; 
+} 
+
+export interface AddBillReceiptItems { 
+  /** 备注：金额 示例：2020.1 */ 
+ amount: number; 
+  /** 备注：收费模式(字典：boms_receiptsChargingMode) 示例：1 */ 
+ chargingMode: number; 
+  /** 备注：费用项目ID(字典：boms_receiptsCostProject) 示例：101 */ 
+ costProject: number; 
+  /** 备注：是否抵扣（1是，2否）(字典：boms_isDeduct) 示例：1 */ 
+ isDeduct: number; 
+  /** 备注：备注 示例：备注 */ 
+ remark: string; 
+  /** 备注：服务费率（0.1025代表10.25%） 示例：0.1025 */ 
+ serviceRate: number; 
+} 
+
+export interface QueryVO { 
+ addBillReceiptItems: AddBillReceiptItems[]; 
+  /** 备注：账单名称字典ID 示例：202 */ 
+ billDictId: number; 
+  /** 备注：费用期间(例如2020-10) 示例：2020-10 */ 
+ costDuring: string; 
+  /** 备注：单据日期 示例：2018-10-01 */ 
+ receiptsDate: string; 
+  /** 备注：备注 示例：备注 */ 
+ remark: string; 
+  /** 备注：供应商ID 示例：1245 */ 
+ supplyerId: string; 
 } 
 
 export interface Result { 
  code: string; 
  currentTimeMillis: number; 
- data: Data; 
+ data: boolean; 
  msg: string; 
  success: boolean; 
-} 
-
-export interface PrizePkg { 
-  /** 备注：参与人数  */ 
- joinNum: number; 
-  /** 备注：抽奖提示 示例：优惠券已到账 */ 
- lotteryMsg: string; 
-  /** 备注：奖品数量  */ 
- lotteryNum: number; 
-  /** 备注：奖品状态 示例：1-未参与 2-已参与 3-已中奖 4-活动已结束 5.未中奖 6:活动未开始 7:级别不够 */ 
- lotteryStatus: number; 
-  /** 备注：orderNum 示例：12 */ 
- orderNum: number; 
-  /** 备注：奖品说明 示例：请联系我们的客服登记您的联系方式，我们将第一时间联系您发放奖品，感谢 */ 
- prizeDesc: string; 
-  /** 备注：prizeId 示例：1 */ 
- prizeId: number; 
-  /** 备注：prizeName 示例：800积分 */ 
- prizeName: string; 
-  /** 备注：奖品显示图片  */ 
- prizePic: string; 
- prizePkg: PrizePkg; 
-  /** 备注：prizeType 示例：优惠券 | 奖品类型(1.现金红包 2.积分3.优惠劵 5:奖品包 6:实物奖品 )  */ 
- prizeType: string; 
-  /** 备注：奖品价值 示例：1000 */ 
- prizeValue: string; 
-} 
-
-export interface Data { 
-  /** 备注：参与人数  */ 
- joinNum: number; 
-  /** 备注：抽奖提示 示例：优惠券已到账 */ 
- lotteryMsg: string; 
-  /** 备注：奖品数量  */ 
- lotteryNum: number; 
-  /** 备注：奖品状态 示例：1-未参与 2-已参与 3-已中奖 4-活动已结束 5.未中奖 6:活动未开始 7:级别不够 */ 
- lotteryStatus: number; 
-  /** 备注：orderNum 示例：12 */ 
- orderNum: number; 
-  /** 备注：奖品说明 示例：请联系我们的客服登记您的联系方式，我们将第一时间联系您发放奖品，感谢 */ 
- prizeDesc: string; 
-  /** 备注：prizeId 示例：1 */ 
- prizeId: number; 
-  /** 备注：prizeName 示例：800积分 */ 
- prizeName: string; 
-  /** 备注：奖品显示图片  */ 
- prizePic: string; 
- prizePkg: PrizePkg; 
-  /** 备注：prizeType 示例：优惠券 | 奖品类型(1.现金红包 2.积分3.优惠劵 5:奖品包 6:实物奖品 )  */ 
- prizeType: string; 
-  /** 备注：奖品价值 示例：1000 */ 
- prizeValue: string; 
 } 
 

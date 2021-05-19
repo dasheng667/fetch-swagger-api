@@ -34,24 +34,23 @@ export default function eachDefinitions(params: any = {}){
   } 
   const { type, properties = {} } = definitions[ref];
 
-  // if(isArray){
-  //   data['isArray'] = true;
-  // }
+  if(isArray){
+    data['isArray'] = true;
+  }
   
   if(type == 'object'){
     Object.keys(properties).forEach((key)=>{
       const childData = properties[key];
-      // console.log('childData>>', childData)
-      // const { type } = childData;
+      const { type } = childData;
       
       if(childData['$ref']){
         data[key] = eachDefinitions({definitions, ref: childData['$ref'], firstFlag: false});
       } 
       else if(childData['items'] && childData['items']['$ref']){
-        data[key] = eachDefinitions({definitions, ref: childData['items']['$ref'], firstFlag: false });
+        data[key] = eachDefinitions({definitions, ref: childData['items']['$ref'], isArray: type == 'array', firstFlag: false });
       }
       else if(childData['schema'] && childData['schema']['$ref']){
-        data[key] = eachDefinitions({definitions, ref: childData['schema']['$ref'], firstFlag: false });
+        data[key] = eachDefinitions({definitions, ref: childData['schema']['$ref'], isArray: type == 'array', firstFlag: false });
       }
       else {
         data[key] = childData;

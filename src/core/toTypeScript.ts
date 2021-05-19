@@ -16,7 +16,14 @@ export default function toTypeScript(data: any, interfaceName: string = 'props')
     if(isObject(value)){
       Object.keys(value).forEach(key => {
         const val = value[key];
-        if(verifyNodeIsDeclarationType(val)){
+        if(val.isArray){
+          res[key] = {
+            type: `${key}[]`
+          }
+          delete val.isArray;
+          result[key] = val;
+        }
+        else if(verifyNodeIsDeclarationType(val)){
           res[key] = val;
         } else {
           res[key] = {
@@ -26,7 +33,7 @@ export default function toTypeScript(data: any, interfaceName: string = 'props')
         }
       });
     } else {
-      console.log('数据异常: ', value);
+      console.log('数据异常1: ', value);
     }
     return res;
   }
@@ -34,7 +41,10 @@ export default function toTypeScript(data: any, interfaceName: string = 'props')
   if(isObject(data)){
     Object.keys(data).forEach(key => {
       const value = data[key];
-      if(verifyNodeIsDeclarationType(value)){
+      if(value.isArray){
+        console.log('isArray: ', value)
+      }
+      else if(verifyNodeIsDeclarationType(value)){
         // 是一个正常的数据声明格式
         props[key] = value;
       } else {
@@ -45,7 +55,7 @@ export default function toTypeScript(data: any, interfaceName: string = 'props')
       }
     });
   } else {
-    console.log('数据异常: ', data);
+    console.log('数据异常2: ', data);
   }
 
   return result;

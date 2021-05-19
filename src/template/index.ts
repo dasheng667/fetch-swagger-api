@@ -1,16 +1,24 @@
 import {stringCase, dataType} from '../utils'
 
-function getInterfaceType(value) {
-  const {type, items} = value;
+function getType(value){
+  const {type} = value;
   if (type === 'integer') return 'number';
   if (type === 'file') return 'any';
   if (type === 'ref') return 'any';
+  return type;
+}
+
+function getInterfaceType(value) {
+  const {items} = value;
+  const type = getType(value);
+
   if(type === 'array' && items && items.type){
-    return `${items.type}[]`;
+    return `${getType(items)}[]`;
   }
   if(dataType.includes(type)) {
     return type;
   }
+  
   if(type){
     return stringCase(type);
   }

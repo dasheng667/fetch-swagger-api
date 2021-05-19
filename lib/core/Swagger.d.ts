@@ -1,4 +1,4 @@
-import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback } from '../types/swagger';
+import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback } from '../../typings/swagger';
 /**
  * Swagger 拉取工具
  */

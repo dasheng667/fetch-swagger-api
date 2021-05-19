@@ -2,7 +2,7 @@
 export interface Query {
   keyword?: string;
   tag?: string;
-  path?: string;
+  path?: string | string[];
 }
 
 export interface QueryListItem {

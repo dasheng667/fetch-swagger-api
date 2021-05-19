@@ -1,4 +1,4 @@
-import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback } from '../types/swagger';
+import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback } from '../../typings/swagger';
 import eachDefinitions from './eachDefinitions';
 import parameters from './parameters';
 import toResponseJSON from './toResponseJSON';
@@ -21,8 +21,8 @@ export default class Swagger {
     }
     this.body = body;
     this.queryList = {};
-    this.responseData = null;
-    this.typescriptData = null;
+    this.responseData = {};
+    this.typescriptData = {};
   }
 
   query(options: Query){
@@ -41,6 +41,7 @@ export default class Swagger {
       if(!ref) return;
 
       const res = eachDefinitions({definitions, ref});
+      console.log('查询到path: ', path)
       queryList[path] = {
         request: parametersData,
         response: res
@@ -105,6 +106,7 @@ export default class Swagger {
   toInterfaceTemp(callback?: (data: InterfaceTempCallback) => void){
     const keys = Object.keys(this.typescriptData);
     if(keys.length === 0) return this;
+
     let propsString = '';
     let resultString = '';
     let a = 0;
@@ -114,14 +116,18 @@ export default class Swagger {
       const {request, response} = this.typescriptData[path];
       propsString += toInterfaceTemp(request);
       resultString += toInterfaceTemp(response);
-      writeTS(`interface/props${a}.d.ts`, propsString + resultString);
+      
+      writeTS(`interface/props${a}.d.ts`, `//${path} \n`+propsString + resultString);
+
+      propsString = '';
+      resultString = '';
     });
 
     if(typeof callback === 'function'){
-      callback({
-        propsString,
-        resultString
-      });
+      // callback({
+      //   propsString,
+      //   resultString
+      // });
     }
 
     return this;

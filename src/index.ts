@@ -1,6 +1,6 @@
 import fetch from './fetch';
 import Swagger from './core/Swagger';
-import testMock from './mock/test1.json';
+import testMock from './mock/boms.json';
 
 async function start(url?: string){
   let requestBody: any = null;
@@ -13,7 +13,7 @@ async function start(url?: string){
 
   const swagger = new Swagger(testMock);
   swagger
-    .query({path: 'stimulate'})
+    .query({path: ['billReceipt/add']})
     .toResponseJSON()
     .toTypeScript()
     .toInterfaceTemp()

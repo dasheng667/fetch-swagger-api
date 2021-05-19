@@ -2,11 +2,12 @@
   "name": "fetch-swagger-api",
   "version": "1.0.0",
   "description": "远程拉取swagger内容，生成json模拟数据、typescript文件",
-  "author": "qqhao <345263463@qq.com> (http://www.yuque.com/qqhh)",
+  "author": "dasheng <345263463@qq.com> (http://www.yuque.com/qqhh)",
   "license": "none",
   "main": "lib/index.js",
   "files": [
-    "lib"
+    "lib",
+    "typings"
   ],
   "scripts": {
     "start": "ts-node ./src/index.ts"

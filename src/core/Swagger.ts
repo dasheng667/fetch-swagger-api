@@ -1,10 +1,12 @@
-import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback } from '../../typings/swagger';
+import path from 'path';
+import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback, BuildMockOption } from '../../typings/swagger';
 import eachDefinitions from './eachDefinitions';
 import parameters from './parameters';
 import toResponseJSON from './toResponseJSON';
 import toTypeScript from './toTypeScript';
 import toInterfaceTemp from './toInterfaceTemp';
-import { writeMock, writeTS, validataQuery, findResponseRef } from '../utils';
+import { validataQuery, findResponseRef, transformPath, log } from '../utils';
+import { writeMock, writeTS, writeJSON } from '../utils/fs';
 
 /**
  * Swagger 拉取工具
@@ -14,6 +16,7 @@ export default class Swagger {
   responseData: any;
   typescriptData: any;
   queryList: QueryListItem;
+  step: '' | 'mock' | 'typescript';
 
   constructor(body){
     if(body == null || typeof body !== 'object'){
@@ -23,6 +26,7 @@ export default class Swagger {
     this.queryList = {};
     this.responseData = {};
     this.typescriptData = {};
+    this.step = '';
   }
 
   query(options: Query){
@@ -41,7 +45,8 @@ export default class Swagger {
       if(!ref) return;
 
       const res = eachDefinitions({definitions, ref});
-      console.log('查询到path: ', path)
+      console.log('query: ', path);
+      
       queryList[path] = {
         request: parametersData,
         response: res
@@ -58,10 +63,12 @@ export default class Swagger {
    * @returns 
    */
   toResponseJSON(callback?: (data: {[path: string]: any}) => void){
+    this.step = 'mock';
+
     const keys = Object.keys(this.queryList);
     if(keys.length === 0) return this;
     const json = {};
-    
+
     keys.forEach(path=>{
       const { response } = this.queryList[path];
       json[path] = toResponseJSON(response);
@@ -81,6 +88,8 @@ export default class Swagger {
    * @returns 
    */
   toTypeScript(callback?: (data: ResponseCallback) => void){
+    this.step = 'typescript';
+
     const keys = Object.keys(this.queryList);
     if(keys.length === 0) return this;
 
@@ -119,16 +128,41 @@ export default class Swagger {
       
       writeTS(`interface/props${a}.d.ts`, `//${path} \n`+propsString + resultString);
 
+       if(typeof callback === 'function'){
+        callback({ [path]: {
+          propsString,
+          resultString
+        }});
+      }
       propsString = '';
       resultString = '';
     });
+    return this;
+  }
 
-    if(typeof callback === 'function'){
-      // callback({
-      //   propsString,
-      //   resultString
-      // });
+  /**
+   * 生成模拟模拟的文件
+   */
+  buildMock(options: BuildMockOption){
+    const { distPath, writeFileType = 'dir', filterPathPrefix } = options || {};
+
+    if(!distPath || typeof distPath !== 'string' ){
+      throw new Error(`distPath: 格式不正确 ${distPath}`);
     }
+
+    const data = this.responseData;
+    Object.keys(data).forEach(key => {
+      const file = key;
+      // 写入目录
+      if(writeFileType === 'dir'){
+        const fileName = path.join(distPath, `${file}.json`);
+        writeJSON(fileName, data[file]);
+      } else if(writeFileType === 'hump') {
+        const fileData = transformPath(key, filterPathPrefix);
+        const fileName = path.join(distPath, `${fileData.key}.json`);
+        writeJSON(fileName, data[file]);
+      }
+    })
 
     return this;
   }

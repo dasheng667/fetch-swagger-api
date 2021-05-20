@@ -1,7 +1,16 @@
 let refTotal: any;
 
-export default function eachDefinitions(params: any = {}){
-  const { definitions = {}, firstFlag = true, isArray } = params;
+interface Props {
+  definitions: any;
+  ref?: string;
+  firstFlag?: boolean;
+  isArray?: boolean;
+  /** ts和json生成的规则有些不同 */
+  // isTS?: boolean;
+}
+
+export default function eachDefinitions(params: Props){
+  const { definitions = {}, firstFlag = true, isArray } = params || {};
   let { ref } = params;
   let data = {};
 

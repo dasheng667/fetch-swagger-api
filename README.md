@@ -85,10 +85,11 @@ toResponseJSON((data)=>{
 + resultString: string;
 ```js
 toInterfaceTemp((data)=>{
-  /**
-   * { 
+  /** data = 
+   * { [path]: {
       propsString: string;
       resultString: string;
+    }
    * }
    * /
 })

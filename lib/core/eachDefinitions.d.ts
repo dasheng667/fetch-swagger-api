@@ -1,1 +1,8 @@
-export default function eachDefinitions(params?: any): void | {};
+interface Props {
+    definitions: any;
+    ref?: string;
+    firstFlag?: boolean;
+    isArray?: boolean;
+}
+export default function eachDefinitions(params: Props): void | {};
+export {};

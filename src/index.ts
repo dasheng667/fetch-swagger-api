@@ -1,3 +1,4 @@
+import path from 'path';
 import fetch from './fetch';
 import Swagger from './core/Swagger';
 import testMock from './mock/boms.json';
@@ -15,6 +16,7 @@ async function start(url?: string){
   swagger
     .query({path: ['billReceipt/add']})
     .toResponseJSON()
+    .buildMock({distPath: path.resolve('./dist/mock'), writeFileType: 'hump', filterPathPrefix: 'api' })
     .toTypeScript()
     .toInterfaceTemp()
 

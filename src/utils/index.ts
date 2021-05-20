@@ -1,4 +1,4 @@
-import fs from 'fs';
+import chalk from 'chalk';
 import { Query } from '../../typings/swagger';
 
 export const validataQuery = function(requestData: any, requestPath: string, options: Query){
@@ -47,17 +47,6 @@ export function findResponseRef(request){
   return null;
 }
 
-export function writeMock(fileName: string, data){
-  fs.writeFile(`./src/mock/${fileName}`, JSON.stringify(data,null,"\t"), null, () => {
-
-  });
-}
-
-export function writeTS(fileName: string, content: string){
-  fs.writeFile(`./src/mock/${fileName}`, content, null, () => {
-
-  });
-}
 
 export function isObject(val: any){
   return Object.prototype.toString.call(val) === "[object Object]";
@@ -66,4 +55,49 @@ export function isObject(val: any){
 export function stringCase(str: string){
   if(typeof str !== 'string') return '';
   return str.slice(0, 1).toUpperCase() + str.slice(1);
+}
+
+/**
+ * 把路径拼装成驼峰式 文件名 transform
+ * @param path 需要转换的路径
+ * @param filterPrefix 需要过滤的前缀
+ * @returns 
+ */
+export function transformPath(path: string, filterPrefix = '') {
+  let ret = path.split('/');
+  const nameIdx = filterPrefix ? ret.indexOf(filterPrefix) : -1;
+  const newArr = ret.filter((item, index) => {
+    return index > nameIdx && item !== '/' && item !== '';
+  })
+  const upCaseArr = newArr.map((item, index) => {
+    let pathRet = item;
+    if (index > 0) {
+       pathRet = item.slice(0, 1).toLocaleUpperCase() + item.slice(1);
+    }
+    return pathRet;
+  })
+  const key = upCaseArr.join('');
+  const value = newArr.join('/');
+  return {
+    key,
+    path: value
+  };
+}
+
+export const log = {
+  red(...args){
+    console.log(chalk.red(...args))
+  },
+  blue(...args){
+    console.log(chalk.blue(...args))
+  },
+  green(...args){
+    console.log(chalk.green(...args))
+  },
+  yellow(...args){
+    console.log(chalk.yellow(...args))
+  },
+  gray(...args){
+    console.log(chalk.gray(...args))
+  },
 }

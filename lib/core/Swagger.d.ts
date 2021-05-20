@@ -1,4 +1,4 @@
-import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback } from '../../typings/swagger';
+import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback, BuildMockOption } from '../../typings/swagger';
 /**
  * Swagger 拉取工具
  */
@@ -7,6 +7,7 @@ export default class Swagger {
     responseData: any;
     typescriptData: any;
     queryList: QueryListItem;
+    step: '' | 'mock' | 'typescript';
     constructor(body: any);
     query(options: Query): this;
     /**
@@ -27,4 +28,8 @@ export default class Swagger {
      * 转换成ts的接口模板
      */
     toInterfaceTemp(callback?: (data: InterfaceTempCallback) => void): this;
+    /**
+     * 生成模拟模拟的文件
+     */
+    buildMock(options: BuildMockOption): this;
 }

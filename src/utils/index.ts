@@ -29,10 +29,8 @@ export const dataType = ['string', 'number', 'array', 'object', 'integer', 'bool
  * @returns 
  */
 export function verifyNodeIsDeclarationType(node: any){
-  if(!node) return false;
-  const arr = dataType;
-  if(node.type === undefined) return false;
-  return arr.includes(node.type);
+  if(!node || node.type === undefined) return false;
+  return dataType.includes(node.type);
 }
 
 

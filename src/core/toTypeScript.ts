@@ -15,7 +15,7 @@ export default function toTypeScript(data: any, interfaceName: string = 'props')
     const res = {};
     if(isObject(value)){
       Object.keys(value).forEach(key => {
-        const val = value[key];
+        const val = {...value[key]};
         if(val.isArray){
           res[key] = {
             type: `${key}[]`

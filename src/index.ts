@@ -14,11 +14,12 @@ async function start(url?: string){
 
   const swagger = new Swagger(testMock);
   swagger
-    .query({path: ['billReceipt/add']})
+    .query({path: ['listDeliveryExpressOrder']})
     .toResponseJSON()
-    .buildMock({distPath: path.resolve('./dist/mock'), writeFileType: 'hump', filterPathPrefix: 'api' })
+    .buildMock({distPath: path.resolve('./dist/mock'), fileType: 'hump', filterPathPrefix: 'api' })
     .toTypeScript()
     .toInterfaceTemp()
+    .buildApi({distPath: path.resolve('./dist/api'), fileType: 'js', apiContent: 'export default axios.{methods}({url})', filterPathPrefix: 'api' })
 
   return swagger;
 }

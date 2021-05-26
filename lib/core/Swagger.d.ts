@@ -1,4 +1,4 @@
-import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback, BuildMockOption } from '../../typings/swagger';
+import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback, BuildMockOption, BuildApiOption } from '../../typings/swagger';
 /**
  * Swagger 拉取工具
  */
@@ -32,4 +32,9 @@ export default class Swagger {
      * 生成模拟模拟的文件
      */
     buildMock(options: BuildMockOption): this;
+    /**
+     *
+     * @returns 生成api文件
+     */
+    buildApi(options: BuildApiOption): this;
 }

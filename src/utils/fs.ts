@@ -29,13 +29,16 @@ export function writeJSON(filePath: string, data, callback?: (err, data) => void
 }
 
 export function writeMock(fileName: string, data){
-  fs.writeFile(`./src/mock/${fileName}`, JSON.stringify(data,null,"\t"), null, () => {
+  const filePath = `./src/mock/${fileName}`;
+  fs.createFileSync(filePath);
+  fs.writeFile(filePath, JSON.stringify(data,null,"\t"), null, () => {
 
   });
 }
 
-export function writeTS(fileName: string, content: string){
-  fs.writeFile(`./src/mock/${fileName}`, content, null, () => {
+export function writeTS(filePath: string, content: string){
+  fs.createFileSync(filePath);
+  fs.writeFile(filePath, content, null, () => {
 
   });
 }

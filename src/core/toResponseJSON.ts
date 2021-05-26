@@ -7,19 +7,6 @@ import { verifyNodeIsDeclarationType } from '../utils';
  */
 export default  function toResponseJSON(data: any){
   const result = {};
-
-  function transformDataResult(data: any){
-    const {type, format, description, explame } = data;
-    if(explame) return explame;
-    if(data.type === 'integer' || data.type === 'number'){
-      return 1
-    }
-    if(data.type === 'string'){
-      return 'string';
-    }
-    return null;
-  }
-
   function each(result, data){
     if(Array.isArray(data)){
       data.forEach(value => {
@@ -27,9 +14,13 @@ export default  function toResponseJSON(data: any){
       });
     } else if(data && typeof data === 'object'){
       Object.keys(data).forEach(key => {
-        const value = data[key];
+        const value = {...data[key]};
 
-        if(verifyNodeIsDeclarationType(value)){
+        if(value.isArray){
+          delete value.isArray;
+          result[key] = [value];
+        }
+        else if(verifyNodeIsDeclarationType(value)){
           // 是一个正常的数据声明格式
           result[key] = transformDataResult(value);
         } else {
@@ -40,8 +31,30 @@ export default  function toResponseJSON(data: any){
       });
     }
   }
-
-  each(result, data)
-
+  each(result, data);
   return result;
+}
+
+function transformDataResult(data: any){
+  const {type, items, explame } = data;
+  if(explame) return explame;
+  const typeName = (items && items.type) ? items.type : type;
+  if(type === 'array'){
+    if(typeName === 'integer' || typeName === 'number'){
+      return [1]
+    }
+    if(typeName === 'string'){
+      return ['1']
+    }
+  }
+  if(type === 'integer' || type === 'number'){
+    return 1
+  }
+  if(type === 'string'){
+    return 'string';
+  }
+  if(type === 'boolean'){
+    return true;
+  }
+  return type;
 }

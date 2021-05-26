@@ -1,5 +1,5 @@
 import path from 'path';
-import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback, BuildMockOption } from '../../typings/swagger';
+import { Query, QueryListItem, InterfaceTempCallback, ResponseCallback, BuildMockOption, BuildApiOption } from '../../typings/swagger';
 import eachDefinitions from './eachDefinitions';
 import parameters from './parameters';
 import toResponseJSON from './toResponseJSON';
@@ -49,11 +49,12 @@ export default class Swagger {
       
       queryList[path] = {
         request: parametersData,
-        response: res
+        response: res,
+        methods: Object.keys(apiData)[0]
       };
     });
     this.queryList = queryList;
-    writeMock('queryList.json', queryList);
+    // writeMock('queryList.json', queryList);
     return this;
   }
 
@@ -75,7 +76,7 @@ export default class Swagger {
     });
 
     this.responseData = json;
-    writeMock('response.json', json);
+    // writeMock('response.json', json);
     if(typeof callback === 'function'){
       callback(json);
     }
@@ -95,14 +96,15 @@ export default class Swagger {
 
     const json = {};
     keys.forEach(path=>{
-      const { request, response } = this.queryList[path];
+      const { request, response, methods } = this.queryList[path];
       json[path] = {
         request: toTypeScript(request, 'props'),
-        response: toTypeScript(response, 'result')
+        response: toTypeScript(response, 'result'),
+        methods
       };
     });
     this.typescriptData = json;
-    writeMock('typescript.json', json);
+    // writeMock('typescript.json', json);
     if(typeof callback === 'function'){
       callback(json);
     }
@@ -118,20 +120,17 @@ export default class Swagger {
 
     let propsString = '';
     let resultString = '';
-    let a = 0;
 
     keys.forEach(path=>{
-      a++;
-      const {request, response} = this.typescriptData[path];
+      const {request, response, methods} = this.typescriptData[path];
       propsString += toInterfaceTemp(request);
       resultString += toInterfaceTemp(response);
-      
-      writeTS(`interface/props${a}.d.ts`, `//${path} \n`+propsString + resultString);
 
        if(typeof callback === 'function'){
         callback({ [path]: {
           propsString,
-          resultString
+          resultString,
+          methods
         }});
       }
       propsString = '';
@@ -144,25 +143,59 @@ export default class Swagger {
    * 生成模拟模拟的文件
    */
   buildMock(options: BuildMockOption){
-    const { distPath, writeFileType = 'dir', filterPathPrefix } = options || {};
+    const { distPath, fileType = 'dir', filterPathPrefix } = options || {};
 
     if(!distPath || typeof distPath !== 'string' ){
-      throw new Error(`distPath: 格式不正确 ${distPath}`);
+      throw new Error(`distPath: 格式不合法 ${distPath}`);
     }
 
     const data = this.responseData;
     Object.keys(data).forEach(key => {
       const file = key;
       // 写入目录
-      if(writeFileType === 'dir'){
+      if(fileType === 'dir'){
         const fileName = path.join(distPath, `${file}.json`);
         writeJSON(fileName, data[file]);
-      } else if(writeFileType === 'hump') {
+      } else if(fileType === 'hump') {
         const fileData = transformPath(key, filterPathPrefix);
         const fileName = path.join(distPath, `${fileData.key}.json`);
         writeJSON(fileName, data[file]);
       }
     })
+
+    return this;
+  }
+
+
+  /**
+   * 
+   * @returns 生成api文件
+   */
+  buildApi(options: BuildApiOption){
+    const { distPath, apiContent, fileType, filterPathPrefix } = options || {};
+
+    if(!distPath || typeof distPath !== 'string' ){
+      throw new Error(`distPath: 格式不合法 ${distPath}`);
+    }
+
+    const keys = Object.keys(this.typescriptData);
+    if(keys.length === 0) return this;
+
+    this.toInterfaceTemp((data) => {
+      Object.keys(data).forEach(path=>{
+        const {propsString, resultString, methods} = data[path];
+        if(distPath){
+          const pathData = transformPath(path, filterPathPrefix);
+          const content = apiContent.replace(/{url}/, `'${pathData.path}'`).replace(/{methods}/, methods);
+
+          if(fileType === 'js'){
+            writeTS(`${distPath}/${pathData.path}.js`, content);
+          } else {
+            writeTS(`${distPath}/${pathData.path}.d.ts`, propsString + resultString + `\n ${content}`);
+          }
+        }
+      })
+    });
 
     return this;
   }

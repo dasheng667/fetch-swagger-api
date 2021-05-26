@@ -1,75 +1,54 @@
 {
-	"/boms/api/billReceipt/add": {
+	"/boms/api/mall/orderDelivery/listDeliveryExpressOrder": {
 		"request": {
 			"props": {
-				"queryVO": {
-					"type": "queryVO"
+				"deliveryOrderQueryVO": {
+					"type": "deliveryOrderQueryVO"
 				}
 			},
-			"addBillReceiptItems": {
-				"amount": {
-					"type": "number",
-					"example": 2020.1,
-					"description": "金额"
+			"deliveryOrderQueryVO": {
+				"address": {
+					"type": "string",
+					"example": "深南大道1号",
+					"description": "地址"
 				},
-				"chargingMode": {
+				"areaAddress": {
+					"type": "string",
+					"example": "广东省深圳市南山区",
+					"description": "省市区"
+				},
+				"expressGroupName": {
+					"type": "string",
+					"example": "SS速运",
+					"description": "承运商"
+				},
+				"expressNumber": {
+					"type": "string",
+					"example": "12312314",
+					"description": "承运商单号"
+				},
+				"linkName": {
+					"type": "string",
+					"example": "张三",
+					"description": "收货人姓名"
+				},
+				"mobile": {
+					"type": "string",
+					"example": "18688775320",
+					"description": "手机号码"
+				},
+				"orderId": {
+					"type": "string",
+					"example": "1231324234",
+					"description": "DDID"
+				},
+				"pageNo": {
 					"type": "integer",
-					"format": "int32",
-					"example": 1,
-					"description": "收费模式(字典：boms_receiptsChargingMode)"
+					"format": "int32"
 				},
-				"costProject": {
+				"pageSize": {
 					"type": "integer",
-					"format": "int32",
-					"example": 101,
-					"description": "费用项目ID(字典：boms_receiptsCostProject)"
-				},
-				"isDeduct": {
-					"type": "integer",
-					"format": "int32",
-					"example": 1,
-					"description": "是否抵扣（1是，2否）(字典：boms_isDeduct)"
-				},
-				"remark": {
-					"type": "string",
-					"example": "备注",
-					"description": "备注"
-				},
-				"serviceRate": {
-					"type": "number",
-					"example": 0.1025,
-					"description": "服务费率（0.1025代表10.25%）"
-				}
-			},
-			"queryVO": {
-				"addBillReceiptItems": {
-					"type": "addBillReceiptItems[]"
-				},
-				"billDictId": {
-					"type": "integer",
-					"format": "int64",
-					"example": 202,
-					"description": "账单名称字典ID"
-				},
-				"costDuring": {
-					"type": "string",
-					"example": "2020-10",
-					"description": "费用期间(例如2020-10)"
-				},
-				"receiptsDate": {
-					"type": "string",
-					"example": "2018-10-01",
-					"description": "单据日期"
-				},
-				"remark": {
-					"type": "string",
-					"example": "备注",
-					"description": "备注"
-				},
-				"supplyerId": {
-					"type": "string",
-					"example": "1245",
-					"description": "供应商ID"
+					"format": "int32"
 				}
 			}
 		},
@@ -83,7 +62,7 @@
 					"format": "int64"
 				},
 				"data": {
-					"type": "boolean"
+					"type": "data"
 				},
 				"msg": {
 					"type": "string"
@@ -91,7 +70,345 @@
 				"success": {
 					"type": "boolean"
 				}
+			},
+			"dataList": {
+				"address": {
+					"type": "string",
+					"example": "深南大道1号",
+					"description": "地址"
+				},
+				"areaAddress": {
+					"type": "string",
+					"example": "广东省深圳市南山区",
+					"description": "省市区"
+				},
+				"deliveryNum": {
+					"type": "string",
+					"example": "11",
+					"description": "发货数量"
+				},
+				"deliveryOrderId": {
+					"type": "string",
+					"example": "12312312",
+					"description": "数据行ID"
+				},
+				"expressGroupName": {
+					"type": "string",
+					"example": "SS速运",
+					"description": "承运商名称"
+				},
+				"expressNumber": {
+					"type": "string",
+					"example": "200001",
+					"description": "承运商单号"
+				},
+				"linkName": {
+					"type": "string",
+					"example": "张三",
+					"description": "收货人姓名"
+				},
+				"mobile": {
+					"type": "string",
+					"example": "18688775320",
+					"description": "手机号码"
+				},
+				"productName": {
+					"type": "string",
+					"example": "大闸蟹",
+					"description": "商品名称"
+				},
+				"productSpecDesc": {
+					"type": "string",
+					"example": "1斤/4个",
+					"description": "包装规格"
+				},
+				"productSpecId": {
+					"type": "string",
+					"example": "123123123",
+					"description": "规格商品编码"
+				},
+				"supplyGroupName": {
+					"type": "string",
+					"example": "苏州水产品供应公司",
+					"description": "供应商名称"
+				}
+			},
+			"data": {
+				"dataList": {
+					"type": "dataList[]"
+				},
+				"endIndex": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"first": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"hasNext": {
+					"type": "boolean"
+				},
+				"hasPrev": {
+					"type": "boolean"
+				},
+				"needData": {
+					"type": "boolean"
+				},
+				"needTotalCount": {
+					"type": "boolean"
+				},
+				"nextPage": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"order": {
+					"type": "string"
+				},
+				"orderBy": {
+					"type": "string"
+				},
+				"orderBySetted": {
+					"type": "boolean"
+				},
+				"pageList": {
+					"type": "array",
+					"items": {
+						"type": "integer",
+						"format": "int32"
+					}
+				},
+				"pageNo": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"pageSize": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"prevPage": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"startIndex": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"totalCount": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"totalPages": {
+					"type": "integer",
+					"format": "int64"
+				}
 			}
-		}
+		},
+		"methods": "post"
+	},
+	"/boms/api/orderDelivery/listDeliveryExpressOrder": {
+		"request": {
+			"props": {
+				"deliveryOrderQueryVO": {
+					"type": "deliveryOrderQueryVO"
+				}
+			},
+			"deliveryOrderQueryVO": {
+				"address": {
+					"type": "string",
+					"example": "深南大道1号",
+					"description": "地址"
+				},
+				"areaAddress": {
+					"type": "string",
+					"example": "广东省深圳市南山区",
+					"description": "省市区"
+				},
+				"expressGroupName": {
+					"type": "string",
+					"example": "SS速运",
+					"description": "承运商"
+				},
+				"expressNumber": {
+					"type": "string",
+					"example": "12312314",
+					"description": "承运商单号"
+				},
+				"linkName": {
+					"type": "string",
+					"example": "张三",
+					"description": "收货人姓名"
+				},
+				"mobile": {
+					"type": "string",
+					"example": "18688775320",
+					"description": "手机号码"
+				},
+				"orderId": {
+					"type": "string",
+					"example": "1231324234",
+					"description": "DDID"
+				},
+				"pageNo": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"pageSize": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"response": {
+			"result": {
+				"code": {
+					"type": "string"
+				},
+				"currentTimeMillis": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"data": {
+					"type": "data"
+				},
+				"msg": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			},
+			"dataList": {
+				"address": {
+					"type": "string",
+					"example": "深南大道1号",
+					"description": "地址"
+				},
+				"areaAddress": {
+					"type": "string",
+					"example": "广东省深圳市南山区",
+					"description": "省市区"
+				},
+				"deliveryNum": {
+					"type": "string",
+					"example": "11",
+					"description": "发货数量"
+				},
+				"deliveryOrderId": {
+					"type": "string",
+					"example": "12312312",
+					"description": "数据行ID"
+				},
+				"expressGroupName": {
+					"type": "string",
+					"example": "SS速运",
+					"description": "承运商名称"
+				},
+				"expressNumber": {
+					"type": "string",
+					"example": "200001",
+					"description": "承运商单号"
+				},
+				"linkName": {
+					"type": "string",
+					"example": "张三",
+					"description": "收货人姓名"
+				},
+				"mobile": {
+					"type": "string",
+					"example": "18688775320",
+					"description": "手机号码"
+				},
+				"productName": {
+					"type": "string",
+					"example": "大闸蟹",
+					"description": "商品名称"
+				},
+				"productSpecDesc": {
+					"type": "string",
+					"example": "1斤/4个",
+					"description": "包装规格"
+				},
+				"productSpecId": {
+					"type": "string",
+					"example": "123123123",
+					"description": "规格商品编码"
+				},
+				"supplyGroupName": {
+					"type": "string",
+					"example": "苏州水产品供应公司",
+					"description": "供应商名称"
+				}
+			},
+			"data": {
+				"dataList": {
+					"type": "dataList[]"
+				},
+				"endIndex": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"first": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"hasNext": {
+					"type": "boolean"
+				},
+				"hasPrev": {
+					"type": "boolean"
+				},
+				"needData": {
+					"type": "boolean"
+				},
+				"needTotalCount": {
+					"type": "boolean"
+				},
+				"nextPage": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"order": {
+					"type": "string"
+				},
+				"orderBy": {
+					"type": "string"
+				},
+				"orderBySetted": {
+					"type": "boolean"
+				},
+				"pageList": {
+					"type": "array",
+					"items": {
+						"type": "integer",
+						"format": "int32"
+					}
+				},
+				"pageNo": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"pageSize": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"prevPage": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"startIndex": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"totalCount": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"totalPages": {
+					"type": "integer",
+					"format": "int64"
+				}
+			}
+		},
+		"methods": "post"
 	}
 }

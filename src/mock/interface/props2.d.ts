@@ -1,4 +1,4 @@
-///boms/api/mall/orderDelivery/listDeliveryExpressOrder 
+///boms/api/orderDelivery/listDeliveryExpressOrder 
 export interface Props { 
  deliveryOrderQueryVO: DeliveryOrderQueryVO; 
 } 

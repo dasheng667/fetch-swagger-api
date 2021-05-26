@@ -20,6 +20,7 @@ export interface InterfaceTempCallback {
   [path: string]: {
     propsString: string;
     resultString: string;
+    methods: 'get' | 'post' | 'put' | 'delete'
   }
 }
 
@@ -32,8 +33,22 @@ export interface BuildMockOption {
    * dir = 目录
    * hump = 驼峰
    */
-  writeFileType?: '' | 'dir' | 'hump';
+  fileType?: '' | 'dir' | 'hump';
 
   /* 需要过滤的path前缀 */
   filterPathPrefix?: string;
+}
+
+export interface BuildApiOption {
+  /** 生成路径 */
+  distPath: string;
+
+  /** api内容 */
+  apiContent: string;
+
+  fileType?: 'js' | 'ts';
+  
+  /* 需要过滤的path前缀 */
+  filterPathPrefix?: string;
+
 }

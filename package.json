@@ -1,6 +1,6 @@
 {
   "name": "fetch-swagger-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "远程拉取swagger内容，生成json模拟数据、typescript文件",
   "author": "dasheng <345263463@qq.com> (http://www.yuque.com/qqhh)",
   "license": "none",
@@ -10,7 +10,7 @@
     "typings"
   ],
   "scripts": {
-    "start": "ts-node ./src/index.ts"
+    "start": "ts-node ./example/index.ts"
   },
   "repository": {
     "type": "git",
@@ -22,9 +22,25 @@
     "npm": ">= 4.0.0"
   },
   "dependencies": {
+    "@types/jest": "^26.0.23",
     "@types/node": "^15.3.0",
     "chalk": "^4.1.1",
-    "fs-extra": "^10.0.0"
+    "fs-extra": "^10.0.0",
+    "jest": "^27.0.5",
+    "request": "^2.88.2",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.4"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$"
+  }
 }

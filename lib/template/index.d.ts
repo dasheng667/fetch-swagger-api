@@ -5,3 +5,9 @@
  * @returns
  */
 export declare const interfaceTemp: (name: string, data: any) => string;
+export declare const requestTemp: (options: {
+    method: string;
+    url: string;
+    params?: any;
+    fileType?: 'js' | 'ts';
+}) => string;

@@ -7,29 +7,35 @@ function checkParamsIn(value){
   return false;
 }
 
-export default function parametersBody(definitions: any = {}, request: any = {}){
+export default function parametersBody(definitions: any = {}, request: { parameters?: any[] } = {}) {
   const { parameters } = request;
-  if(!parameters) return null;
+  if (!parameters || !Array.isArray(parameters)) return null;
   const body = {};
 
-  if(parameters.length == 1 && parameters[0].in == 'body'){
-    const value: any = eachDefinitions({ definitions, ref: parameters[0].schema.$ref });
+  if (parameters.length == 1 && parameters[0].in == "body") {
+    const value: any = eachDefinitions({
+      definitions,
+      ref: parameters[0].schema.$ref,
+    });
     Object.assign(body, value);
     return body;
   }
 
-  parameters.map(item=>{
-    if(item.schema && item.schema.$ref){
-      const value: any = eachDefinitions({ definitions, ref: item.schema.$ref });
-      
-      if(checkParamsIn(value)){
+  parameters.map((item) => {
+    if (item.schema && item.schema.$ref) {
+      const value: any = eachDefinitions({
+        definitions,
+        ref: item.schema.$ref,
+      });
+
+      if (checkParamsIn(value)) {
         body[item.name] = value;
       }
     } else {
-      if(checkParamsIn(item)){
+      if (checkParamsIn(item)) {
         body[item.name] = item;
       }
     }
-  })
+  });
   return body;
 };

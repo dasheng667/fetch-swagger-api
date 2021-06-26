@@ -4,5 +4,5 @@ interface Props {
     firstFlag?: boolean;
     isArray?: boolean;
 }
-export default function eachDefinitions(params: Props): void | {};
+export default function eachDefinitions(params: Props): {};
 export {};

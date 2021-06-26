@@ -7,11 +7,12 @@ export default class Swagger {
     responseData: any;
     typescriptData: any;
     queryList: QueryListItem;
-    step: '' | 'mock' | 'typescript';
-    constructor(body: any);
-    query(options: Query): this;
+    step: "" | "mock" | "typescript";
+    constructor(body?: Object);
+    fetchApi(url: string): Promise<any>;
+    query(options: Query, callback?: (list: any) => void): this;
     /**
-     * 转换成响应数据
+     * 转换 Response
      * @param callback
      * @returns
      */
@@ -29,9 +30,9 @@ export default class Swagger {
      */
     toInterfaceTemp(callback?: (data: InterfaceTempCallback) => void): this;
     /**
-     * 生成模拟模拟的文件
+     * 生成模拟的json文件
      */
-    buildMock(options: BuildMockOption): this;
+    buildMockJSON(options: BuildMockOption): this;
     /**
      *
      * @returns 生成api文件

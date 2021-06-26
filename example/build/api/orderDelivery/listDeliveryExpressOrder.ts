@@ -1,9 +1,11 @@
-///boms/api/orderDelivery/listDeliveryExpressOrder 
-export interface Props { 
+
+ import request from '@/api/request';  
+ 
+ export type Props = { 
  deliveryOrderQueryVO: DeliveryOrderQueryVO; 
 } 
 
-export interface DeliveryOrderQueryVO { 
+export type DeliveryOrderQueryVO = { 
   /** 备注：地址 示例：深南大道1号 */ 
  address: string; 
   /** 备注：省市区 示例：广东省深圳市南山区 */ 
@@ -22,7 +24,8 @@ export interface DeliveryOrderQueryVO {
  pageSize: number; 
 } 
 
-export interface Result { 
+ 
+ export type Result = { 
  code: string; 
  currentTimeMillis: number; 
  data: Data; 
@@ -30,7 +33,7 @@ export interface Result {
  success: boolean; 
 } 
 
-export interface DataList { 
+export type DataList = { 
   /** 备注：地址 示例：深南大道1号 */ 
  address: string; 
   /** 备注：省市区 示例：广东省深圳市南山区 */ 
@@ -57,7 +60,7 @@ export interface DataList {
  supplyGroupName: string; 
 } 
 
-export interface Data { 
+export type Data = { 
  dataList: DataList[]; 
  endIndex: number; 
  first: number; 
@@ -78,3 +81,12 @@ export interface Data {
  totalPages: number; 
 } 
 
+ 
+ export default function(params: Props, options?: {[key: string]: any}){
+  return request<Result>({
+    url: '/orderDelivery/listDeliveryExpressOrder',
+    methods: 'POST',
+    data: params,
+    ...(options || {})
+  })
+}

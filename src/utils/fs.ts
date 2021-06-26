@@ -28,17 +28,7 @@ export function writeJSON(filePath: string, data, callback?: (err, data) => void
   });
 }
 
-export function writeMock(fileName: string, data){
-  const filePath = `./src/mock/${fileName}`;
+export function writeTS(filePath: string, content: string) {
   fs.createFileSync(filePath);
-  fs.writeFile(filePath, JSON.stringify(data,null,"\t"), null, () => {
-
-  });
-}
-
-export function writeTS(filePath: string, content: string){
-  fs.createFileSync(filePath);
-  fs.writeFile(filePath, content, null, () => {
-
-  });
+  fs.writeFile(filePath, content, null, () => {});
 }

@@ -16954,51 +16954,6 @@
         }
       }
     },
-    "/boms/api/mall/orderDelivery/listDeliveryExpressOrder": {
-      "post": {
-        "tags": ["V2.14.0", "DD联系人收货管理"],
-        "summary": "查询发货快递单信息",
-        "description": "查询发货快递单信息",
-        "operationId": "listDeliveryExpressOrderUsingPOST",
-        "consumes": ["application/json"],
-        "produces": ["*/*"],
-        "parameters": [
-          {
-            "name": "FFS-Head",
-            "in": "header",
-            "description": "用户登登ttoo",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "FFS-UserId",
-            "in": "header",
-            "description": "用户登登UserId",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "deliveryOrderQueryVO",
-            "description": "查询参数",
-            "required": true,
-            "schema": { "$ref": "#/definitions/DeliveryOrderQueryVO" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ModelResult«DataPage«DeliveryOrderVO»»"
-            }
-          },
-          "201": { "description": "Created" },
-          "401": { "description": "Unauthorized" },
-          "403": { "description": "Forbidden" },
-          "404": { "description": "Not Found" }
-        }
-      }
-    },
     "/boms/api/mall/product/bind": {
       "post": {
         "tags": ["V2.16.0", "V2.21.0", "商城商品规格管理"],

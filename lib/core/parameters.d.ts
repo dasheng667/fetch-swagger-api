@@ -1,1 +1,3 @@
-export default function parametersBody(definitions?: any, request?: any): {};
+export default function parametersBody(definitions?: any, request?: {
+    parameters?: any[];
+}): {};

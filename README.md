@@ -9,13 +9,22 @@ yarn add fetch-swagger-api
 ## 示例
 ```js
 const Swagger = required('fetch-swagger-api');
+const swagger = new Swagger(params);
 
-Swagger()
+swagger()
   .query({path: 'activity'})
   .toResponseJSON()
   .toTypeScript()
   .toInterfaceTemp()
 ```
+
+## params参数
+`type: string | object` 
+
+`string`: swagger的http地址；
+
+`object`: swagger的json数据；
+
 
 ## 方法
 
@@ -23,7 +32,7 @@ Swagger()
 模糊匹配api，参数：
 + path 【api路径】
 + tag 【版本号】
-+ keyword 【api接口描述】
++ keyword 【api接口描述关键字】
 
 
 ### toResponseJSON

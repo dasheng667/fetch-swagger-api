@@ -32,15 +32,49 @@ function getInterfaceType(value) {
  * @returns 
  */
 export const interfaceTemp = (name: string, data: any) => {
-  let str = `export interface ${stringCase(name)} { \n`
-  Object.keys(data).forEach((key: any)=>{
+  const interArr = Object.keys(data);
+  if (interArr.length === 0) {
+    return `export type ${stringCase(name)} = null; \n`;
+  } 
+  let str = `export type ${stringCase(name)} = { \n`;
+  interArr.forEach((key: any) => {
     const val = data[key];
-    const name = val.name || key || '';
-    const description = val.description ? `  /** 备注：${val.description} ${val.example ? `示例：${val.example}` : ''} */ \n` : '';
-    const content = ` ${name}${val.required === false ? '?' : ''}: ${getInterfaceType(val)}; \n`;
+    const name = val.name || key || "";
+    const description = val.description
+      ? `  /** 备注：${val.description} ${
+          val.example ? `示例：${val.example}` : ""
+        } */ \n`
+      : "";
+    const content = ` ${name}${
+      val.required === false ? "?" : ""
+    }: ${getInterfaceType(val)}; \n`;
     str += description;
     str += content;
   });
   str += '} \n\n';
   return str;
 }
+
+export const requestTemp = (options: { method: string; url: string; params?: any, fileType?: 'js' | 'ts' }) => {
+  let { method = "GET", url, params, fileType } = options;
+  if (fileType === 'ts'){
+    return `export default function(params: Props, options?: {[key: string]: any}){
+  return request<Result>({
+    url: '${url}',
+    methods: '${method.toLocaleUpperCase()}',
+    data: params,
+    ...(options || {})
+  })
+}`;
+  }
+
+  return `export default function(params, options){
+  return request({
+    url: '${url}',
+    methods: '${method.toLocaleUpperCase()}',
+    data: params,
+    ...(options || {})
+  })
+}`;
+
+};

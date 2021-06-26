@@ -20,13 +20,13 @@ export interface InterfaceTempCallback {
   [path: string]: {
     propsString: string;
     resultString: string;
-    methods: 'get' | 'post' | 'put' | 'delete'
-  }
+    methods: "get" | "post" | "put" | "delete";
+  };
 }
 
 export interface BuildMockOption {
   /** 生成路径 */
-  distPath: string;
+  outputPath: string;
 
   /**
    * 写入文件的类型
@@ -41,14 +41,13 @@ export interface BuildMockOption {
 
 export interface BuildApiOption {
   /** 生成路径 */
-  distPath: string;
+  outputPath: string;
 
-  /** api内容 */
-  apiContent: string;
+  fileType?: "js" | "ts";
 
-  fileType?: 'js' | 'ts';
-  
   /* 需要过滤的path前缀 */
   filterPathPrefix?: string;
 
+  /* import 头部*/
+  requestLibPath: string;
 }

@@ -3,12 +3,14 @@ swagger接口拉取工具，可以生产json模拟数据和typescript声明文�
 
 ## 安装
 ```
+npm install fetch-swagger-api
+
 yarn add fetch-swagger-api
 ```
 
 ## 示例
 ```js
-const Swagger = required('fetch-swagger-api');
+import Swagger from 'fetch-swagger-api';
 const swagger = new Swagger(params);
 
 swagger()

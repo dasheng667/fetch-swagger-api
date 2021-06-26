@@ -1,7 +1,9 @@
 import request from 'request';
 
 export default function fetch(url: string){
-  url = url || 'https://fedev.feng1.com/wxapp/v2/api-docs'
+  if(!url){
+    throw new Error('url 不能为空');
+  }
   return new Promise((resolve, reject) => {
     request({
       url,
